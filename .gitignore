@@ -1,0 +1,11 @@
+# .gitignore 
+*.jou 
+*.log 
+*.cache/
+*.sim/
+*.runs/
+*.hw/
+*.ip_user_files/
+*.docx
+*.tmp
+*.str
