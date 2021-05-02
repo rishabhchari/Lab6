@@ -25,7 +25,7 @@ USE ieee.std_logic_1164.all;
 
 ENTITY pmod_real_time_clock IS
   GENERIC(
-    sys_clk_freq : INTEGER := 100_000_000);               --input clock speed from user logic in Hz
+    sys_clk_freq : INTEGER := 125_000_000);               --input clock speed from user logic in Hz
   PORT(
     clk           : IN    STD_LOGIC;                     --system clock
     reset_n       : IN    STD_LOGIC;                     --asynchronous active-low reset
@@ -88,7 +88,7 @@ BEGIN
 
   --instantiate the i2c master
   i2c_master_0:  i2c_master
-    GENERIC MAP(input_clk => sys_clk_freq, bus_clk => 100_000)
+    GENERIC MAP(input_clk => sys_clk_freq, bus_clk => 400_000)
     PORT MAP(clk => clk, reset_n => reset_n, ena => i2c_ena, addr => i2c_addr,
              rw => i2c_rw, data_wr => i2c_data_wr, busy => i2c_busy,
              data_rd => i2c_data_rd, ack_error => i2c_ack_err, sda => sda,
@@ -241,3 +241,4 @@ BEGIN
     END IF;
   END PROCESS;   
 END behavior;
+
