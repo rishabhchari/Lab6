@@ -90,7 +90,7 @@ architecture Top_Level of Top_Level is
 begin
 
    RTCC : pmod_real_time_clock
-   Generic map(sys_clk_freq => 100_000_000)
+   Generic map(sys_clk_freq => 125_000_000)
    port map(clk => CLK, 
             reset_n => '1',
             scl => SCL, 
@@ -149,3 +149,4 @@ begin
            
 
 end Top_Level;
+
