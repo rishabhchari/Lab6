@@ -16,7 +16,7 @@ entity time2vectors is
 end time2vectors;
 
 architecture time2vectors of time2vectors is
-
+signal sec_dig_1,sec_dig_2,min_dig_1,min_dig_2,hou_dig_1,hou_dig_2 : std_logic_vector(7 downto 0); 
 
 begin
 
@@ -30,44 +30,21 @@ begin
             con_hou_dig1 <= (others => '0'); 
             con_hou_dig2 <= (others => '0'); 
         elsif(rising_edge(clk)) then 
-            con_sec_dig1 <= std_logic_vector(to_unsigned((to_integer(unsigned(seconds)) mod 10),8) + 48);  
-            con_min_dig1 <= std_logic_vector(to_unsigned((to_integer(unsigned(minutes)) mod 10),8) + 48);  
-            con_hou_dig1 <= std_logic_vector(to_unsigned((to_integer(unsigned(hours)) mod 10),8) + 48);  
+            sec_dig_1 <= "0000" & seconds(3 downto 0);  
+            min_dig_1 <= "0000" & minutes(3 downto 0);  
+            hou_dig_1 <= "0000" & hours(3 downto 0);  
             
-            if unsigned(seconds) < to_unsigned(10,7) then 
-                con_sec_dig2 <= X"30";
-            elsif unsigned(seconds) < to_unsigned(20,7) then 
-                con_sec_dig2 <= X"31"; 
-            elsif unsigned(seconds) < to_unsigned(30,7) then 
-                con_sec_dig2 <= X"32";
-            elsif unsigned(seconds) < to_unsigned(40,7) then 
-                con_sec_dig2 <= X"33";
-            elsif unsigned(seconds) < to_unsigned(50,7) then 
-                con_sec_dig2 <= X"34";
-            elsif unsigned(seconds) < to_unsigned(60,7) then 
-                con_sec_dig2 <= X"35"; 
-            end if; 
-            
-            if unsigned(minutes) < to_unsigned(10,7) then 
-                con_min_dig2 <= X"30";
-            elsif unsigned(minutes) < to_unsigned(20,7) then 
-                con_min_dig2 <= X"31"; 
-            elsif unsigned(minutes) < to_unsigned(30,7) then 
-                con_min_dig2 <= X"32";
-            elsif unsigned(minutes) < to_unsigned(40,7) then 
-                con_min_dig2 <= X"33";
-            elsif unsigned(minutes) < to_unsigned(50,7) then 
-                con_min_dig2 <= X"34";
-            elsif unsigned(minutes) < to_unsigned(60,7) then 
-                con_min_dig2 <= X"35"; 
-            end if;                
-
-            if unsigned(hours) < to_unsigned(10,5) then 
-                con_hou_dig2 <= X"30";
-            elsif unsigned(hours) < to_unsigned(20,5) then 
-                con_hou_dig2 <= X"31"; 
-            end if;
+            sec_dig_2 <= "00000" & seconds(6 downto 4);
+            min_dig_2 <= "00000" & minutes(6 downto 4); 
+            hou_dig_2 <= "0000000" & hours(4); 
         
+            con_sec_dig1 <= std_logic_vector(unsigned(sec_dig_1) + 48); 
+            con_sec_dig2 <= std_logic_vector(unsigned(sec_dig_2) + 48); 
+            con_min_dig1 <= std_logic_vector(unsigned(min_dig_1) + 48); 
+            con_min_dig2 <= std_logic_vector(unsigned(min_dig_1) + 48); 
+            con_hou_dig1 <= std_logic_vector(unsigned(hou_dig_1) + 48);
+            con_hou_dig2 <= std_logic_vector(unsigned(hou_dig_2) + 48);  
+            
         end if; 
     end process; 
 end time2vectors;
