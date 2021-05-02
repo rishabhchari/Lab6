@@ -109,8 +109,8 @@ type OledMem is array(0 to 3, 0 to 15) of STD_LOGIC_VECTOR(7 downto 0);
 --Variable that contains what the screen will be after the next UpdateScreen state
 signal current_screen : OledMem; 
 --Constant that contains the screen filled with the Alphabet and numbers
-signal alphabet_screen : OledMem :=((X"20",X"20",X"20",X"20",X"20",X"20",X"20",X"20",X"20",X"20",X"20",X"20",X"20",X"20",X"20",X"20"),
-												(hou_dig_2,hou_dig_1,X"3A",min_dig_2,min_dig_1,X"3A",sec_dig_2,sec_dig_1,X"20",X"20",X"20",X"20",X"20",X"20",X"20",X"20"),
+signal alphabet_screen : OledMem :=((X"20",X"20",X"20",X"20",X"20",X"20",X"20",X"20",X"20",X"20",X"20",X"20",X"20",X"20",X"20",X"20"),	
+												(X"20",X"20",X"20",X"20",X"20",X"20",X"20",X"20",X"20",X"20",X"20",X"20",X"20",X"20",X"20",X"20"),
 												(X"20",X"20",X"20",X"20",X"20",X"20",X"20",X"20",X"20",X"20",X"20",X"20",X"20",X"20",X"20",X"20"),
 												(X"20",X"20",X"20",X"20",X"20",X"20",X"20",X"20",X"20",X"20",X"20",X"20",X"20",X"20",X"20",X"20"));
 --Constant that fills the screen with blank (spaces) entries
@@ -198,7 +198,8 @@ FIN <= '1' when (current_state = Done) else
 				--Set current_screen to constant alphabet_screen and update the screen.  Go to state Wait1 afterwards
 				when Alphabet => 
 					current_screen <= alphabet_screen;
-					current_state <= UpdateScreen;
+                    current_state <= UpdateScreen;
+                    after_update_state <= Wait1;
 				--Wait 4ms and go to ClearScreen
 				when Wait1 => 
 					temp_delay_ms <= "111110100000"; --4000
@@ -217,7 +218,7 @@ FIN <= '1' when (current_state = Done) else
 				--Set currentScreen to constant digilent_screen and update the screen. Go to state Done afterwards
 				when DigilentScreen =>
 					current_screen <= digilent_screen;
-					after_update_state <= Done;
+					after_update_state <= DigilentScreen;
 					current_state <= UpdateScreen;
 				--Do nothing until EN is deassertted and then current_state is Idle
 				when Done			=>
